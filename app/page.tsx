@@ -88,8 +88,9 @@ function formatUptime(timestamp: string | undefined): string {
 /* ─── Components ────────────────────────────────────── */
 
 function Header() {
-  const [now, setNow] = useState(new Date());
+  const [now, setNow] = useState<Date | null>(null);
   useEffect(() => {
+    setNow(new Date());
     const id = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(id);
   }, []);
@@ -111,10 +112,10 @@ function Header() {
       </div>
       <div className="text-right">
         <p className="text-xs text-[var(--text-secondary)] tabular-nums">
-          {now.toLocaleTimeString("en-US", { hour12: false })}
+          {now ? now.toLocaleTimeString("en-US", { hour12: false }) : "──:──:──"}
         </p>
         <p className="text-[10px] text-[var(--text-dim)]">
-          {now.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}
+          {now ? now.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" }) : "───"}
         </p>
       </div>
     </header>
